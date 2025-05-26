@@ -1,0 +1,182 @@
+- Name: MsgBoxMessage
+  Aliases:
+  - msg
+  Author:
+    Name: DRG
+    Handle: DRG
+    Link: https://github.com/Jurangren
+  Description: 在主机上弹出指定消息的弹窗
+  Help: 
+  Language: CSharp
+  CompatibleDotNetVersions:
+  - Net35
+  - Net40
+  Code: >
+    using System;
+
+    using SharpSploit.Execution;
+
+
+    public static class Task
+
+    {
+        public static string Execute(string Message, string TimeoutClose, string Title, string TypeAndIcon)
+        {
+            try
+            {
+                string MsgCommand = $"$wshell = New-Object -ComObject WScript.Shell; $wshell.popup('{Message}',{TimeoutClose.ToString()},'{Title}',{TypeAndIcon.ToString()})";
+                string result = Shell.PowerShellExecute(MsgCommand, true).Trim();
+                string resultString = "";
+                switch (result)
+                {
+                    case "1":
+                        resultString = "用户点击了确定";
+                        break;
+                    case "2":
+                        resultString = "用户点击了取消";
+                        break;
+                    case "3":
+                        resultString = "用户点击了终止";
+                        break;
+                    case "4":
+                    case "10":
+                        resultString = "用户点击了重试";
+                        break;
+                    case "5":
+                        resultString = "用户点击了忽略";
+                        break;
+                    case "6":
+                        resultString = "用户点击了是";
+                        break;
+                    case "7":
+                        resultString = "用户点击了否";
+                        break;
+                    case "11":
+                        resultString = "用户点击了继续";
+                        break;
+                    default:
+                        resultString = "未知点击";
+                        break;
+                }
+                return resultString;
+            }
+            catch (Exception e)
+            {
+                return e.GetType().FullName + ": " + e.Message + Environment.NewLine + e.StackTrace;
+            }
+        }
+    }
+  TaskingType: Assembly
+  UnsafeCompile: false
+  TokenTask: false
+  Options:
+  - Name: Message
+    Value: ''
+    DefaultValue: ''
+    Description: 弹窗的消息正文
+    SuggestedValues: []
+    Optional: false
+    DisplayInCommand: true
+    FileOption: false
+  - Name: TimeoutClose
+    Value: ''
+    DefaultValue: ''
+    Description: 等待多少秒后自动关闭，0表示不自动关闭
+    SuggestedValues: []
+    Optional: false
+    DisplayInCommand: true
+    FileOption: false
+  - Name: Title
+    Value: ''
+    DefaultValue: ''
+    Description: 弹窗的标题文字
+    SuggestedValues: []
+    Optional: false
+    DisplayInCommand: true
+    FileOption: false
+  - Name: TypeAndIcon
+    Value: ''
+    DefaultValue: ''
+    Description: '指定弹窗的按钮类型和图标。  按钮类型： 0：显示“确定”按钮 1：显示“确定”+“取消”按钮 2：显示“终止”+“重试”+“忽略”按钮 3：显示“是”+“否”+“取消”按钮 4：显示“是”+“否”按钮 5：显示“重试”+“取消”按钮 6：显示“重试”+“取消”+“继续”按钮  图标类型： 0: 无图标 16: 错误图标 32: 疑问图标 48: 警告图标 64: 信息图标  例如需要显示“确定”+“取消”按钮与疑问图标，请传入33(即1+32)'
+    SuggestedValues: []
+    Optional: false
+    DisplayInCommand: true
+    FileOption: false
+  ReferenceSourceLibraries:
+  - Name: SharpSploit
+    Description: SharpSploit is a library for C# post-exploitation modules.
+    Location: SharpSploit/SharpSploit/
+    Language: CSharp
+    CompatibleDotNetVersions:
+    - Net35
+    - Net40
+    ReferenceAssemblies:
+    - Name: System.DirectoryServices.dll
+      Location: net35/System.DirectoryServices.dll
+      DotNetVersion: Net35
+    - Name: System.Core.dll
+      Location: net40/System.Core.dll
+      DotNetVersion: Net40
+    - Name: mscorlib.dll
+      Location: net40/mscorlib.dll
+      DotNetVersion: Net40
+    - Name: System.DirectoryServices.Protocols.dll
+      Location: net40/System.DirectoryServices.Protocols.dll
+      DotNetVersion: Net40
+    - Name: System.IdentityModel.dll
+      Location: net40/System.IdentityModel.dll
+      DotNetVersion: Net40
+    - Name: System.Management.Automation.dll
+      Location: net40/System.Management.Automation.dll
+      DotNetVersion: Net40
+    - Name: System.dll
+      Location: net40/System.dll
+      DotNetVersion: Net40
+    - Name: System.Management.dll
+      Location: net40/System.Management.dll
+      DotNetVersion: Net40
+    - Name: System.ServiceProcess.dll
+      Location: net40/System.ServiceProcess.dll
+      DotNetVersion: Net40
+    - Name: System.DirectoryServices.dll
+      Location: net40/System.DirectoryServices.dll
+      DotNetVersion: Net40
+    - Name: System.Windows.Forms.dll
+      Location: net35/System.Windows.Forms.dll
+      DotNetVersion: Net35
+    - Name: System.XML.dll
+      Location: net35/System.XML.dll
+      DotNetVersion: Net35
+    - Name: System.Management.Automation.dll
+      Location: net35/System.Management.Automation.dll
+      DotNetVersion: Net35
+    - Name: System.IdentityModel.dll
+      Location: net35/System.IdentityModel.dll
+      DotNetVersion: Net35
+    - Name: System.DirectoryServices.Protocols.dll
+      Location: net35/System.DirectoryServices.Protocols.dll
+      DotNetVersion: Net35
+    - Name: mscorlib.dll
+      Location: net35/mscorlib.dll
+      DotNetVersion: Net35
+    - Name: System.Core.dll
+      Location: net35/System.Core.dll
+      DotNetVersion: Net35
+    - Name: System.dll
+      Location: net35/System.dll
+      DotNetVersion: Net35
+    - Name: System.Management.dll
+      Location: net35/System.Management.dll
+      DotNetVersion: Net35
+    - Name: System.ServiceProcess.dll
+      Location: net35/System.ServiceProcess.dll
+      DotNetVersion: Net35
+    - Name: System.XML.dll
+      Location: net40/System.XML.dll
+      DotNetVersion: Net40
+    - Name: System.Windows.Forms.dll
+      Location: net40/System.Windows.Forms.dll
+      DotNetVersion: Net40
+    EmbeddedResources: []
+  ReferenceAssemblies: []
+  EmbeddedResources: []
